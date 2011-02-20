@@ -139,7 +139,7 @@ module CEF
   
     def socksetup
       @sock=UDPSocket.new
-      receiver= self.receiver || "loghost"
+      receiver= self.receiver || "localhost"
       port= self.receiverPort || 514
       @sock.connect(receiver,port)
     end
