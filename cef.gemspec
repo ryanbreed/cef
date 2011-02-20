@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
     "Rakefile",
     "VERSION",
     "bin/cef_sender",
+    "cef.gemspec",
     "lib/cef.rb",
     "spec/cef_spec.rb",
     "spec/spec_helper.rb"
