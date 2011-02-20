@@ -10,3 +10,14 @@ Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each {|f| require f}
 RSpec.configure do |config|
   
 end
+
+def test_prefix_vals
+  test_prefix_vals={
+    :deviceVendor       => "breed",
+    :deviceProduct      => "CEF Sender",
+    :deviceVersion      => "0.1",
+    :deviceEventClassId => "0:debug",
+    :name               => "test",
+    :deviceSeverity     => "1"
+  }
+end
