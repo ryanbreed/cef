@@ -1,0 +1,65 @@
+#!/bin/env ruby
+require 'cef'
+require 'getoptlong'
+
+
+sender=CEF::Sender.new
+
+e=CEF::Event.new
+
+opts=GetoptLong.new(
+  ["--debug",      GetoptLong::OPTIONAL_ARGUMENT],
+  ["--help",      GetoptLong::OPTIONAL_ARGUMENT],
+  ["--schema",      GetoptLong::OPTIONAL_ARGUMENT],
+  ["--receiver",      GetoptLong::OPTIONAL_ARGUMENT],
+  ["--receiverPort",      GetoptLong::OPTIONAL_ARGUMENT],
+  *e.attrs.keys.collect {|o| ["--#{o}", GetoptLong::OPTIONAL_ARGUMENT]}
+)
+
+def print_usage
+        puts <<END_USAGE
+Usage: cef_sender --sourceAddress="192.168.1.1" [--eventAttribute="something"]
+
+  non-schema arguments: 
+     --help gets you here
+     --schema will dump all of the callable event attribute names
+     --receiver= syslog receiver hostname/ip
+     --receiverPort= syslog port
+
+cef_sender will send CEF-formatted syslog messages to a receiver of your choice.
+only the cef fields defined in the cef reader flex connector are supported.
+datatyping is not enforced here.
+
+END_USAGE
+
+end
+
+def print_schema(e)
+  e.attrs.keys.collect {|k| k.to_s}.sort.each {|a| puts a}
+end
+
+opts.each do |opt,arg|
+  # TODO: set up cases for startTime, receiptTime, endTime to parse
+  #       text and convert to unix time * 1000
+  case opt
+    when "--debug"
+      @debug=1
+    when "--schema"
+      print_schema(e)
+      exit(0)
+    when "--receiverPort"
+      sender.receiverPort=arg
+    when "--receiver"
+      sender.receiver=arg
+    when "--help"
+      print_usage
+      exit(0)
+    else
+      fieldname = opt.gsub(/-/,'')
+      value=arg
+      e.send("#{fieldname}=",value)
+  end
+end
+
+puts sender.format_event(e) if (@debug > 0)
+sender.emit(e)
