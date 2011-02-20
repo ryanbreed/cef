@@ -15,29 +15,28 @@ http://www.arcsight.com/collateral/CEFstandards.pdf
 
 == Example API Usage
 
-require 'rubygems'
-require 'cef'
 
-# instantiate a sender object
-sender=CEF::Sender.new(
-    :receiver=>"loghost.mycompany.com",
-    :eventDefaults=>{
-        :deviceProduct => "MySnazzyLogger",
-        :deviceVendor  => "My Company"
-    }
-  )
+    # instantiate a sender object
+    sender=CEF::Sender.new(
+        :receiver=>"loghost.mycompany.com",
+        :eventDefaults=>{
+            :deviceProduct => "MySnazzyLogger",
+            :deviceVendor  => "My Company"
+        }
+      )
+    # instantiate an event
+    event=CEF::Event.new(
+    :sourceAddress      => "192.168.1.1",
+    :destinationAddress => "192.168.1.2",
+    :name               => "i think something happened"
+    )
 
-event=CEF::Event.new(
-  :sourceAddress      => "192.168.1.1",
-  :destinationAddress => "192.168.1.2",
-  :name               => "i think something happened"
-  )
-
-sender.emit(e)
+    # fire away!
+    sender.emit(e)
 
 == Example client usage
 
-cef_sender --receiver="myloghost.company.com"  \
+  cef_sender --receiver="myloghost.company.com"\
             --deviceProduct="MySnazzyLogger"   \
             --deviceVendor="My Company"        \
             --sourceAddress="192.168.1.1"      \
@@ -46,7 +45,7 @@ cef_sender --receiver="myloghost.company.com"  \
 
 To see the supported event attributes:
 
-cef_sender --schema
+  cef_sender --schema
 
 == Contributing to cef
  
