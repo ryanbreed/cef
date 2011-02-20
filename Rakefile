@@ -15,13 +15,10 @@ Jeweler::Tasks.new do |gem|
   gem.name = "cef"
   gem.homepage = "http://github.com/ryanbreed/cef"
   gem.license = "MIT"
-  gem.summary = %Q{CEF Generation }
-  gem.description = %Q{Library and client }
+  gem.summary = %Q{ CEF Generation Library and Client }
+  gem.description = %Q{ format/send CEF logs via API+syslog or client program }
   gem.email = "opensource@breed.org"
   gem.authors = ["Ryan Breed"]
-  # Include your dependencies below. Runtime dependencies are required when using your gem,
-  # and development dependencies are only needed for development (ie running rake tasks, tests, etc)
-  #gem.add_runtime_dependency 'escape', '~> 0.0.4'
   gem.add_development_dependency 'rspec', '~> 2.3.0'
   gem.files.include('VERSION')
 end
