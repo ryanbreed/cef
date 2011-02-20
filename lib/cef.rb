@@ -2,12 +2,11 @@ module CEF
   require 'socket'
   require 'parsedate'
   PREFIX_FORMAT="<%d>%s %s CEF:0|%s|%s"
-
+  VERSION=File.read(File.join(File.expand_path(File.dirname(__FILE__)),'..','VERSION'))
 
   
   # CEF Dictionary
   # CEF Prefix attributes
-  # i know this is very dumb, but i am lazy
   PREFIX_ATTRIBUTES = {
     :deviceVendor       => "deviceVendor",
     :deviceVersion      => "deviceVersion", 
@@ -132,14 +131,13 @@ module CEF
   
     # you can pass in a hash of options to be run to set parameters
     def initialize(*params)
-      p=Hash[*params]
-      p.each {|k,v| self.send("#{k}=",v) }
+      Hash[*params].each {|k,v| self.send("%s="%k,v) }
       @sock=nil
     end
   
     def socksetup
       @sock=UDPSocket.new
-      receiver= self.receiver || "localhost"
+      receiver= self.receiver || "127.0.0.1"
       port= self.receiverPort || 514
       @sock.connect(receiver,port)
     end
@@ -157,10 +155,11 @@ module CEF
 	  event.send("#{k}=",v)
         end
       end
+      
       cef_message=PREFIX_FORMAT % [
-        syslog_pri, 
+        syslog_pri.to_s,
         Socket::gethostname,
-	Time.new.strftime("%b %d %Y %H:%M:%S"),
+	      Time.new.strftime("%b %d %Y %H:%M:%S"),
         event.prefix,
         event.extension
       ]
@@ -189,8 +188,7 @@ module CEF
   
     # so we can CEFEvent.new(:foo=>"bar")
     def initialize( *params )
-      p=Hash[*params]
-      p.each { |k,v| self.send("#{k}=",v) }
+      Hash[*params].each { |k,v| self.send("%s="%k,v) }
     end
   
     # escape only pipes and backslashes in the prefix. you bet your sweet 
@@ -235,7 +233,7 @@ module CEF
     def prefix
       vendor=  self.deviceVendor       || "Breed"
       product= self.deviceProduct      || "CEF Sender"
-      version= self.deviceVersion      || "0.4"
+      version= self.deviceVersion      || CEF::VERSION
       declid=  self.deviceEventClassId || "generic:0"
       name=    self.name               || "Generic Event"
       sev=     self.deviceSeverity     || "1"

@@ -21,8 +21,9 @@ Jeweler::Tasks.new do |gem|
   gem.authors = ["Ryan Breed"]
   # Include your dependencies below. Runtime dependencies are required when using your gem,
   # and development dependencies are only needed for development (ie running rake tasks, tests, etc)
-  gem.add_runtime_dependency 'escape', '~> 0.0.4'
+  #gem.add_runtime_dependency 'escape', '~> 0.0.4'
   gem.add_development_dependency 'rspec', '~> 2.3.0'
+  gem.files.include('VERSION')
 end
 Jeweler::RubygemsDotOrgTasks.new
 

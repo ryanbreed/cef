@@ -1,8 +1,7 @@
 #!/bin/env ruby
+require 'rubygems'
 require 'cef'
 require 'getoptlong'
-require 'rubygems'
-require 'escape'
 
 sender=CEF::Sender.new
 
@@ -65,7 +64,7 @@ opts.each do |opt,arg|
       e.send("#{fieldname}=",value)
   end
 end
-msg=Escape.shell_command(sender.format_event(e))
+msg=sender.format_event(e)
 
 
 if @verbose>0
