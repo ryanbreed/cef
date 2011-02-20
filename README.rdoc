@@ -1,6 +1,52 @@
 = cef
 
-Description goes here.
+This is an implementation of the Common Event Formatting standard.
+
+http://www.arcsight.com/solutions/solutions-cef/
+
+
+Included is a library implementing a formatter/emitter and a client program
+that can be called from a shell script or some other external source. The
+library currently hardcodes the syslog format|priority if you choose to send
+vi UDP to a receiver.
+
+Most of the standard dictionary is implemented.
+http://www.arcsight.com/collateral/CEFstandards.pdf
+
+== Example API Usage
+
+require 'rubygems'
+require 'cef'
+
+# instantiate a sender object
+sender=CEF::Sender.new(
+    :receiver=>"loghost.mycompany.com",
+    :eventDefaults=>{
+        :deviceProduct => "MySnazzyLogger",
+        :deviceVendor  => "My Company"
+    }
+  )
+
+event=CEF::Event.new(
+  :sourceAddress      => "192.168.1.1",
+  :destinationAddress => "192.168.1.2",
+  :name               => "i think something happened"
+  )
+
+sender.emit(e)
+
+== Example client usage
+
+cef_sender --receiver="myloghost.company.com"  \
+            --deviceProduct="MySnazzyLogger"   \
+            --deviceVendor="My Company"        \
+            --sourceAddress="192.168.1.1"      \
+            --destinationAddress="192.168.1.2" \
+            --name="i think something happened"
+
+To see the supported event attributes:
+
+cef_sender --schema
 
 == Contributing to cef
  
