@@ -1,6 +1,9 @@
 module CEF
   require 'socket'
   require 'parsedate'
+  PREFIX_FORMAT="<%d>%s %s CEF:0|%s|%s"
+
+
   
   # CEF Dictionary
   # CEF Prefix attributes
@@ -154,7 +157,7 @@ module CEF
 	  event.send("#{k}=",v)
         end
       end
-      cef_message="<%d>%s %s CEF:0|%s|%s" % [
+      cef_message=PREFIX_FORMAT % [
         syslog_pri, 
         Socket::gethostname,
 	Time.new.strftime("%b %d %Y %H:%M:%S"),
@@ -230,8 +233,8 @@ module CEF
   
     # returns a pipe-delimeted list of prefix attributes
     def prefix
-      vendor=  self.deviceVendor       || "ERCOT"
-      product= self.deviceProduct      || "CEFSender"
+      vendor=  self.deviceVendor       || "Breed"
+      product= self.deviceProduct      || "CEF Sender"
       version= self.deviceVersion      || "0.4"
       declid=  self.deviceEventClassId || "generic:0"
       name=    self.name               || "Generic Event"

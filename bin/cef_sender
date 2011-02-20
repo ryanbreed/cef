@@ -1,18 +1,21 @@
 #!/bin/env ruby
 require 'cef'
 require 'getoptlong'
-
+require 'rubygems'
+require 'escape'
 
 sender=CEF::Sender.new
 
 e=CEF::Event.new
-
+@verbose=0
+@file=nil
 opts=GetoptLong.new(
-  ["--debug",      GetoptLong::OPTIONAL_ARGUMENT],
+  ["--verbose",      GetoptLong::OPTIONAL_ARGUMENT],
   ["--help",      GetoptLong::OPTIONAL_ARGUMENT],
   ["--schema",      GetoptLong::OPTIONAL_ARGUMENT],
   ["--receiver",      GetoptLong::OPTIONAL_ARGUMENT],
   ["--receiverPort",      GetoptLong::OPTIONAL_ARGUMENT],
+  ["--append-file",      GetoptLong::OPTIONAL_ARGUMENT],
   *e.attrs.keys.collect {|o| ["--#{o}", GetoptLong::OPTIONAL_ARGUMENT]}
 )
 
@@ -42,8 +45,8 @@ opts.each do |opt,arg|
   # TODO: set up cases for startTime, receiptTime, endTime to parse
   #       text and convert to unix time * 1000
   case opt
-    when "--debug"
-      @debug=1
+    when "--verbose"
+      @verbose+=1
     when "--schema"
       print_schema(e)
       exit(0)
@@ -54,12 +57,22 @@ opts.each do |opt,arg|
     when "--help"
       print_usage
       exit(0)
+    when "--append-file"
+      @file=File.open(arg,"w+")
     else
       fieldname = opt.gsub(/-/,'')
       value=arg
       e.send("#{fieldname}=",value)
   end
 end
+msg=Escape.shell_command(sender.format_event(e))
 
-puts sender.format_event(e) if (@debug > 0)
-sender.emit(e)
+
+if @verbose>0
+  puts msg
+end
+if !(@file.nil?) && File.exists?(@file)
+  @file.write "%s\n" % msg.gsub(/^<\d+>/,'')
+else
+  sender.emit(e)
+end
