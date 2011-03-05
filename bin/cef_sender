@@ -3,18 +3,16 @@ require 'rubygems'
 require 'cef'
 require 'getoptlong'
 
-sender=CEF::Sender.new
-
-e=CEF::Event.new
 @verbose=0
 @file=nil
 opts=GetoptLong.new(
-  ["--verbose",      GetoptLong::OPTIONAL_ARGUMENT],
-  ["--help",      GetoptLong::OPTIONAL_ARGUMENT],
-  ["--schema",      GetoptLong::OPTIONAL_ARGUMENT],
+  ["--verbose",       GetoptLong::OPTIONAL_ARGUMENT],
+  ["--help",          GetoptLong::OPTIONAL_ARGUMENT],
+  ["--schema",        GetoptLong::OPTIONAL_ARGUMENT],
   ["--receiver",      GetoptLong::OPTIONAL_ARGUMENT],
-  ["--receiverPort",      GetoptLong::OPTIONAL_ARGUMENT],
-  ["--append-file",      GetoptLong::OPTIONAL_ARGUMENT],
+  ["--receiverPort",  GetoptLong::OPTIONAL_ARGUMENT],
+  ["--append-file",   GetoptLong::OPTIONAL_ARGUMENT],
+  ["--tcp",           GetoptLong::OPTIONAL_ARGUMENT],
   *e.attrs.keys.collect {|o| ["--#{o}", GetoptLong::OPTIONAL_ARGUMENT]}
 )
 
@@ -27,6 +25,8 @@ Usage: cef_sender --sourceAddress="192.168.1.1" [--eventAttribute="something"]
      --schema will dump all of the callable event attribute names
      --receiver= syslog receiver hostname/ip
      --receiverPort= syslog port
+     --append-file=  filename to append cef message to
+     --tcp will use TCP instead of the default (UDP) to send the message
 
 cef_sender will send CEF-formatted syslog messages to a receiver of your choice.
 only the cef fields defined in the cef reader flex connector are supported.
@@ -36,10 +36,14 @@ END_USAGE
 
 end
 
-def print_schema(e)
-  e.attrs.keys.collect {|k| k.to_s}.sort.each {|a| puts a}
+def print_schema(event)
+  event.attrs.keys.collect {|k| k.to_s}.sort.each {|a| puts a}
 end
 
+@use_tcp=false
+
+cef_sender=nil
+cef_event=nil
 opts.each do |opt,arg|
   # TODO: set up cases for startTime, receiptTime, endTime to parse
   #       text and convert to unix time * 1000
@@ -47,24 +51,37 @@ opts.each do |opt,arg|
     when "--verbose"
       @verbose+=1
     when "--schema"
-      print_schema(e)
+      print_schema(cef_event)
       exit(0)
     when "--receiverPort"
-      sender.receiverPort=arg
+      @receiverPort=arg
     when "--receiver"
-      sender.receiver=arg
+      @receiver_host=arg
     when "--help"
       print_usage
       exit(0)
     when "--append-file"
       @file=File.open(arg,"w+")
+    when "--tcp"
+      @use_tcp=true
     else
       fieldname = opt.gsub(/-/,'')
       value=arg
-      e.send("#{fieldname}=",value)
+      cef_event.send("%s=" % fieldname, value)
   end
 end
-msg=sender.format_event(e)
+
+if @use_tcp
+  cef_sender=CEF::TcpSender.new
+else
+  cef_sender=CEF::UDPSender.new
+end
+
+cef_sender.receiver=@receiver_host
+cef_sender.receiverPort=@receiverPort
+cef_event=CEF::Event.new
+
+msg=cef_event.cef_format
 
 
 if @verbose>0
@@ -73,5 +90,5 @@ end
 if !(@file.nil?) && File.exists?(@file)
   @file.write "%s\n" % msg.gsub(/^<\d+>/,'')
 else
-  sender.emit(e)
+  cef_sender.emit(cef_event)
 end
