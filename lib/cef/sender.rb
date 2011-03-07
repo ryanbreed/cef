@@ -25,7 +25,7 @@ module CEF
 
     private
       def socksetup
-        @sock=UDPSocket.new
+        @sock=TCPSocket.new
         receiver= self.receiver || "127.0.0.1"
         port= self.receiverPort || 514
         @sock.connect(receiver,port)
