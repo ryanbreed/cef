@@ -2,14 +2,14 @@ module CEF
   class Event
     attr_accessor :my_hostname, :syslog_pri
     # set up accessors for all of the CEF event attributes. ruby meta magic.
-    ATTRIBUTES.each do |k,v|
+    CEF::ATTRIBUTES.each do |k,v|
       self.instance_eval do
         attr_accessor k
       end
     end
 
     def attrs
-      ATTRIBUTES
+      CEF::ATTRIBUTES
     end
   
     # so we can CEF::Event.new(:foo=>"bar")
@@ -24,7 +24,7 @@ module CEF
   
     # returns a cef formatted string
     def format_cef
-      cef_message=PREFIX_FORMAT % [
+      cef_message=CEF::PREFIX_FORMAT % [
         syslog_pri.to_s,
         my_hostname,
         Time.new.strftime("%b %d %Y %H:%M:%S"),
@@ -94,7 +94,7 @@ module CEF
       # returns a space-delimeted list of attribute=value pairs for all optionals
       def format_extension
         avpairs=[]
-        EXTENSION_ATTRIBUTES.each do |attribute,shortname|
+        CEF::EXTENSION_ATTRIBUTES.each do |attribute,shortname|
           unless self.send(attribute).nil?
             avpairs.push(
               "%s=%s" % [ shortname, extension_escape(self.send(attribute)) ]
@@ -103,7 +103,7 @@ module CEF
         end
 
         # make sure time comes out as milliseconds since epoch
-        TIME_ATTRIBUTES.each do |attribute,shortname|
+        CEF::TIME_ATTRIBUTES.each do |attribute,shortname|
           unless self.send(attribute).nil?
             avpairs.push(
               "%s=%s" % [ shortname, time_convert(self.send(attribute)) ]

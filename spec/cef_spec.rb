@@ -5,8 +5,9 @@ describe "CEF Event Format" do
     prefix_vals=test_prefix_vals
     e=CEF::Event.new
     prefix_vals.each {|k,v| e.send("%s="%k,v) }
-    s=CEF::Sender.new
     formatted=CEF::PREFIX_FORMAT % [ 131, *prefix_vals.values ]
-    s.format_event(e)==formatted
+    
+    e.format_cef==formatted
   end
+
 end

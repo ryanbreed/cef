@@ -21,3 +21,7 @@ def test_prefix_vals
     :deviceSeverity     => "1"
   }
 end
+
+def test_prefix_string
+  "CEF:0|breed|CEF Sender|0.1|0:debug|test|1|"
+end

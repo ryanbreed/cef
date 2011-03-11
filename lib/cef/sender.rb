@@ -10,27 +10,7 @@ module CEF
     end
   end
 
-  class TcpSender < Sender
-
-    #fire the message off
-    def emit(event)
-      self.socksetup if self.sock.nil?
-      unless self.eventDefaults.nil?
-        self.eventDefaults.each do |k,v|
-          event.send("%s=" % k,v)
-        end
-      end
-      self.sock.send event.format_cef, 0
-    end
-
-    private
-      def socksetup
-        @sock=TCPSocket.new
-        receiver= self.receiver || "127.0.0.1"
-        port= self.receiverPort || 514
-        @sock.connect(receiver,port)
-      end
-  end
+  #TODO: Implement relp/tcp senders
 
   class UdpSender < Sender
 

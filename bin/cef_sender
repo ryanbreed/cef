@@ -40,9 +40,6 @@ def print_schema(event)
   event.attrs.keys.collect {|k| k.to_s}.sort.each {|a| puts a}
 end
 
-@use_tcp=false
-
-cef_sender=nil
 cef_event=nil
 opts.each do |opt,arg|
   # TODO: set up cases for startTime, receiptTime, endTime to parse
@@ -54,7 +51,7 @@ opts.each do |opt,arg|
       print_schema(cef_event)
       exit(0)
     when "--receiverPort"
-      @receiverPort=arg
+      @receiver_port=arg
     when "--receiver"
       @receiver_host=arg
     when "--help"
@@ -62,8 +59,6 @@ opts.each do |opt,arg|
       exit(0)
     when "--append-file"
       @file=File.open(arg,"w+")
-    when "--tcp"
-      @use_tcp=true
     else
       fieldname = opt.gsub(/-/,'')
       value=arg
@@ -71,14 +66,9 @@ opts.each do |opt,arg|
   end
 end
 
-if @use_tcp
-  cef_sender=CEF::TcpSender.new
-else
-  cef_sender=CEF::UDPSender.new
-end
-
+cef_sender=CEF::UDPSender.new
 cef_sender.receiver=@receiver_host
-cef_sender.receiverPort=@receiverPort
+cef_sender.receiverPort=@receiver_port
 cef_event=CEF::Event.new
 
 msg=cef_event.cef_format
