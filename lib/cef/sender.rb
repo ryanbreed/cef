@@ -12,7 +12,7 @@ module CEF
 
   #TODO: Implement relp/tcp senders
 
-  class UdpSender < Sender
+  class UDPSender < Sender
 
     #fire the message off
     def emit(event)
@@ -27,12 +27,12 @@ module CEF
       self.sock.send event.format_cef, 0
     end
 
-    private
-      def socksetup
-        @sock=UDPSocket.new
-        receiver= self.receiver || "127.0.0.1"
-        port= self.receiverPort || 514
-        @sock.connect(receiver,port)
-      end
+
+    def socksetup
+      @sock=UDPSocket.new
+      receiver= self.receiver || "127.0.0.1"
+      port= self.receiverPort || 514
+      @sock.connect(receiver,port)
+    end
   end
 end

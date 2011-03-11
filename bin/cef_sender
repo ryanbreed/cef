@@ -5,6 +5,7 @@ require 'getoptlong'
 
 @verbose=0
 @file=nil
+cef_event=CEF::Event.new
 opts=GetoptLong.new(
   ["--verbose",       GetoptLong::OPTIONAL_ARGUMENT],
   ["--help",          GetoptLong::OPTIONAL_ARGUMENT],
@@ -13,7 +14,7 @@ opts=GetoptLong.new(
   ["--receiverPort",  GetoptLong::OPTIONAL_ARGUMENT],
   ["--append-file",   GetoptLong::OPTIONAL_ARGUMENT],
   ["--tcp",           GetoptLong::OPTIONAL_ARGUMENT],
-  *e.attrs.keys.collect {|o| ["--#{o}", GetoptLong::OPTIONAL_ARGUMENT]}
+  *cef_event.attrs.keys.collect {|o| ["--#{o}", GetoptLong::OPTIONAL_ARGUMENT]}
 )
 
 def print_usage
@@ -40,7 +41,7 @@ def print_schema(event)
   event.attrs.keys.collect {|k| k.to_s}.sort.each {|a| puts a}
 end
 
-cef_event=nil
+
 opts.each do |opt,arg|
   # TODO: set up cases for startTime, receiptTime, endTime to parse
   #       text and convert to unix time * 1000
@@ -69,9 +70,9 @@ end
 cef_sender=CEF::UDPSender.new
 cef_sender.receiver=@receiver_host
 cef_sender.receiverPort=@receiver_port
-cef_event=CEF::Event.new
 
-msg=cef_event.cef_format
+
+msg=cef_event.format_cef
 
 
 if @verbose>0
