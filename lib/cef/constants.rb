@@ -1,7 +1,7 @@
 module CEF
-    PREFIX_FORMAT="<%d>%s %s CEF:0|%s|%s"
+  PREFIX_FORMAT="<%d>%s %s CEF:0|%s|%s"
   VERSION=File.read(File.join(File.expand_path(File.dirname(__FILE__)),'..','..','VERSION'))
-
+  LOG_TIME_FORMAT="%b %d %Y %H:%M:%S"
 
   # CEF Dictionary
   # CEF Prefix attributes

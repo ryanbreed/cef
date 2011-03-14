@@ -22,6 +22,24 @@ def test_prefix_vals
   }
 end
 
+def test_prefix_escape_vals
+  test_prefix_escape_vals={
+    :deviceVendor       => "bre|ed",
+    :deviceProduct      => "CEF Sender",
+    :deviceVersion      => "0.1",
+    :deviceEventClassId => "0:debug",
+    :name               => "test",
+    :deviceSeverity     => "1"
+  }
+end
+
+def test_extension_vals
+  test_extension_vals={
+      :sourceAddress      => "192.168.1.1",
+      :destinationAddress => "192.168.1.2"
+  }
+end
+
 def test_prefix_string
-  "CEF:0|breed|CEF Sender|0.1|0:debug|test|1|"
+  "breed|CEF Sender|0.1|0:debug|test|1"
 end

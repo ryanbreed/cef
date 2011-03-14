@@ -1,6 +1,6 @@
 module CEF
   class Event
-    attr_accessor :my_hostname, :syslog_pri
+    attr_accessor :my_hostname, :syslog_pri, :event_time
     # set up accessors for all of the CEF event attributes. ruby meta magic.
     CEF::ATTRIBUTES.each do |k,v|
       self.instance_eval do
@@ -24,10 +24,17 @@ module CEF
   
     # returns a cef formatted string
     def format_cef
+      log_time=nil
+      if event_time.nil?
+        log_time=Time.new.strftime(CEF::LOG_TIME_FORMAT)
+      else
+        log_time=event_time.strftime(CEF::LOG_TIME_FORMAT)
+      end
+
       cef_message=CEF::PREFIX_FORMAT % [
         syslog_pri.to_s,
         my_hostname,
-        Time.new.strftime("%b %d %Y %H:%M:%S"),
+        log_time,
         format_prefix,
         format_extension
       ]
