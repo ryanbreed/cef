@@ -1,0 +1,27 @@
+#!/bin/env ruby
+require 'rubygems'
+require 'cef'
+require 'getoptlong'
+require 'csv'
+
+opts=GetoptLong.new(
+    ["--story",    GetoptLong::REQUIRED_ARGUMENT],
+    ["--receiver", GetoptLong::OPTIONAL_ARGUMENT],
+    ["--delay",    GetoptLong::OPTIONAL_ARGUMENT],
+    ["--out",      GetoptLong::OPTIONAL_ARGUMENT]
+)
+
+opts.each do |opt,arg|
+  case opt
+    when '--story'
+      @filename=arg
+    when '--receiver'
+      @receiver=arg
+    when '--delay'
+      @delay=arg
+    when '--out'
+      @outfile=arg
+  end
+end
+
+sender=CEF::Sender.new(:receiver=>@receiver)
