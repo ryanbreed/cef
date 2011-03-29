@@ -4,7 +4,7 @@ module CEF
   class Parser
     # TODO: deal with escaping delimeters
     
-    attr_accessor :file_name, :prefix_regex
+    attr_accessor :file_name
 
     def initialize(*args)
       # Parser.new(:foo=>"bar)
