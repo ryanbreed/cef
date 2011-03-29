@@ -21,15 +21,49 @@ module CEF
   # differently than core attributes.
   EXTENSION_ATTRIBUTES = {
     :applicationProtocol          => "app",
+
+    :agentZoneURI                 => "agentZoneURI",
+    :agentAddress                 => "agt",
+    :agentHostName                => "ahost",
+    :agentId                      => "aid",
+    :agentName                    => "agentName",
+    :agentType                    => "at",
+    :agentTimeZone                => "atz",
+    :agentVersion                 => "av",
+
     :baseEventCount               => "cnt",
+    :baseEventIds                 => "baseEventIds",
     :bytesIn                      => "in",
     :bytesOut                     => "out",
+
+    :categoryBehavior             => "categoryBehavior",
+    :categoryDeviceGroup          => "categoryDeviceGroup",
+    :categoryObject               => "categoryObject",
+    :categoryOutcome              => "categoryOutcome",
+    :categorySignificance         => "categorySignificance",
+
+
+
     :deviceAction                 => "act",
-    :deviceHostNam                => "dvc",
-    :deviceNtDomain               => "deviceNtDomain",
+    :deviceDirection              => "deviceDirection",
     :deviceDnsDomain              => "deviceDnsDomain",
-    :deviceTranslatedAddress      => "deviceTranslatedAddress",
+    :deviceEventCategory          => "cat",
+    :deviceExternalId             => "deviceExternalId",
+    :deviceFacility               => "deviceFacility",
+    :deviceAddress                => "dvc",
+    :deviceHostName               => "dvchost",
+    :deviceInboundInterface       => "deviceInboundInterface",
     :deviceMacAddress             => "deviceMacAddress",
+    :deviceNtDomain               => "deviceNtDomain",
+    :deviceOutboundInterface      => "deviceOutboundInterface",
+    :devicePayloadId              => "devicePayloadId",
+    :deviceProcessName            => "deviceProcessName",
+    :deviceSeverity               => "deviceSeverity",
+    :deviceTimeZone               => "dtz",
+    :deviceTranslatedAddress      => "deviceTranslatedAddress",
+    :deviceTranslatedZoneURI      => "deviceTranslatedZoneURI",
+    :deviceZoneURI                => "deviceZoneURI",
+
     :deviceCustomNumber1          => "cn1",
     :deviceCustomNumber2          => "cn2",
     :deviceCustomNumber3          => "cn3",
@@ -52,7 +86,7 @@ module CEF
     :deviceCustomDate2            => "deviceCustomDate2",
     :deviceCustomDate1Label       => "deviceCustomDate1Label",
     :deviceCustomDate2Label       => "deviceCustomDate2Label",
-    :deviceEventCategory          => "cat",
+
     :destinationAddress           => "dst",
     :destinationDnsDomain         => "destinationDnsDomain",
     :destinationNtDomain          => "dntdom",
@@ -61,26 +95,29 @@ module CEF
     :destinationPort              => "dpt",
     :destinationProcessName       => "dproc",
     :destinationServiceName       => "destinationServiceName",
+    :destinationTranslatedAddress => "destinationTranslatedAddress",
+    :destinationTranslatedPort    => "destinationTranslatedPort",
     :destinationUserId            => "duid",
     :destinationUserPrivileges    => "dpriv",
     :destinationUserName          => "duser",
-    :destinationTranslatedAddress => "destinationTranslatedAddress",
-    :destinationTranslatedPort    => "destinationTranslatedPort",
-    :deviceDirection              => "deviceDirection",
-    :deviceExternalId             => "deviceExternalId",
-    :deviceFacility               => "deviceFacility",
-    :deviceInboundInterface       => "deviceInboundInterface",
-    :deviceOutboundInterface      => "deviceOutboundInterface",
-    :deviceProcessName            => "deviceProcessName",
+    :destinationZoneURI           => "destinationZoneURI",
+
+    :eventId                      => "eventId",
     :externalId                   => "externalId",
+    :eventType                    => "type",
+
     :fileHash                     => "fileHash",
     :fileId                       => "fileId",
     :fileName                     => "fname",
     :filePath                     => "filePath",
     :filePermission               => "filePermission",
-    :fsize                        => "fsize",
+    :fileSize                     => "fsize",
     :fileType                     => "fileType",
+
+    :generatorID                  => "generatorID",
+
     :message                      => "msg",
+
     :oldfileHash                  => "oldfileHash",
     :oldfileId                    => "oldfileId",
     :oldFilename                  => "oldFilename",
@@ -88,10 +125,12 @@ module CEF
     :oldfilePermission            => "oldfilePermission",
     :oldfsize                     => "oldfsize",
     :oldfileType                  => "oldfileType",
+
     :requestURL                   => "request",
     :requestClientApplication     => "requestClientApplication",
     :requestCookies               => "requestCookies",
     :requestMethod                => "requestMethod",
+
     :sourceAddress                => "src",
     :sourceDnsDomain              => "sourceDnsDomain",
     :sourceHostName               => "shost",
@@ -104,6 +143,8 @@ module CEF
     :sourceUserPrivileges         => "spriv",
     :sourceUserId                 => "suid",
     :sourceUserName               => "suser",
+    :sourceZoneURI                => "sourceZoneURI",
+
     :transportProtocol            => "proto"
   }
 
@@ -115,7 +156,10 @@ module CEF
     :oldfileModificationTime => "oldfileModificationTime",
     :receiptTime             => "rt",
     :startTime               => "start",
-    :endTime                 => "end"
+    :endTime                 => "end",
+    :managerReceiptTime      => "mrt",
+    :agentReceiptTime        => "art",
+
   }
 
   ATTRIBUTES=PREFIX_ATTRIBUTES.merge EXTENSION_ATTRIBUTES.merge TIME_ATTRIBUTES

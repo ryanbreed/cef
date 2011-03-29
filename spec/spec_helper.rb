@@ -42,4 +42,7 @@ end
 
 def test_prefix_string
   "breed|CEF Sender|0.1|0:debug|test|1"
+  end
+def test_prefix_escape_string
+  "bre\\|ed|CEF Sender|0.1|0:debug|test|1"
 end

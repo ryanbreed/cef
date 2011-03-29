@@ -87,7 +87,7 @@ module CEF
       # only equals signs need to be escaped in the extension. i think.
       # TODO: something in the spec about \n and some others.
       def extension_escape(val)
-        val.gsub(/=/,'\=').gsub(/\n/,' ')
+        val.gsub(/=/,'\=').gsub(/\n/,' ').gsub(/\\/,'\\')
       end
 
       # returns a pipe-delimeted list of prefix attributes
