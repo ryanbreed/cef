@@ -24,7 +24,6 @@ module CEF
           extension_av_pairs=extension_string.split(/ ([\w\.]+)=/)
           extension_av_pairs.shift
 
-
           begin
             extension=Hash[ *extension_av_pairs.map {|i| i.strip} ]
             extension.each do |k,v|
@@ -49,7 +48,6 @@ module CEF
           else
             events.push e
           end
-
         end
       end
       events
