@@ -20,6 +20,8 @@ module CEF
       # used to avoid requiring syslog.h on windoze
       #syslog_pri= Syslog::LOG_LOCAL0 | Syslog::LOG_NOTICE
       @syslog_pri  ||= 131
+      @other_attrs={}
+      @additional={}
     end
   
     # returns a cef formatted string
@@ -39,6 +41,14 @@ module CEF
         format_extension
       ]
       cef_message
+    end
+
+    # used for non-schema fields
+    def set_additional(k,v)
+      @additional[k]=v
+    end
+    def get_additional(k,v)
+      @additional[k]
     end
 
     private
