@@ -58,7 +58,6 @@ module CEF
     :deviceOutboundInterface      => "deviceOutboundInterface",
     :devicePayloadId              => "devicePayloadId",
     :deviceProcessName            => "deviceProcessName",
-    :deviceSeverity               => "deviceSeverity",
     :deviceTimeZone               => "dtz",
     :deviceTranslatedAddress      => "deviceTranslatedAddress",
     :deviceTranslatedZoneURI      => "deviceTranslatedZoneURI",
