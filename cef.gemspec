@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{cef}
-  s.version = "0.7.1"
+  s.version = "0.8.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Ryan Breed"]
-  s.date = %q{2011-03-11}
+  s.date = %q{2011-03-29}
   s.default_executable = %q{cef_sender}
   s.description = %q{ format/send CEF logs via API+syslog or client program }
   s.email = %q{opensource@breed.org}
@@ -32,6 +32,7 @@ Gem::Specification.new do |s|
     "lib/cef/constants.rb",
     "lib/cef/event.rb",
     "lib/cef/file_logger.rb",
+    "lib/cef/parser.rb",
     "lib/cef/sender.rb",
     "spec/cef_spec.rb",
     "spec/spec_helper.rb"
