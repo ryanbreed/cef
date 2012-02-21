@@ -35,8 +35,8 @@ module CEF
 
       cef_message=CEF::PREFIX_FORMAT % [
         syslog_pri.to_s,
-        my_hostname,
         log_time,
+        my_hostname,
         format_prefix,
         format_extension
       ]
