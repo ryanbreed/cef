@@ -1,17 +1,18 @@
 module CEF
-  PREFIX_FORMAT="<%d>%s %s CEF:0|%s|%s"
-  VERSION=File.read(File.join(File.expand_path(File.dirname(__FILE__)),'..','..','VERSION'))
+  SEVERITY_LOW="1"
+
+  LOG_FORMAT="<%d>%s %s CEF:0|%s|%s"
   LOG_TIME_FORMAT="%b %d %Y %H:%M:%S"
 
   # CEF Dictionary
   # CEF Prefix attributes
   PREFIX_ATTRIBUTES = {
     :deviceVendor       => "deviceVendor",
-    :deviceVersion      => "deviceVersion",
     :deviceProduct      => "deviceProduct",
+    :deviceVersion      => "deviceVersion",
+    :deviceEventClassId => "deviceEventClassId",
     :name               => "name",
-    :deviceSeverity     => "deviceSeverity",
-    :deviceEventClassId => "deviceEventClassId"
+    :deviceSeverity     => "deviceSeverity"
   }
 
   # these are the basic extension attributes. implementing others is as
