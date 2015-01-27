@@ -24,7 +24,7 @@ module CEF
           event.send("%s=" % k,v)
         end
       end
-      self.sock.send event.format_cef, 0
+      self.sock.send event.to_s, 0
     end
 
 

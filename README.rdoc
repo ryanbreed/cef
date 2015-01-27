@@ -17,7 +17,7 @@ http://www.arcsight.com/collateral/CEFstandards.pdf
 
 
     # instantiate a sender object
-    sender=CEF::Sender.new(
+    sender=CEF::UDPSender.new(
         :receiver=>"loghost.mycompany.com",
         :eventDefaults=>{
             :deviceProduct => "MySnazzyLogger",
