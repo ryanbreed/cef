@@ -13,6 +13,10 @@ module CEF
   #TODO: Implement relp/tcp senders
 
   class UDPSender < Sender
+    def initialize(receiver='127.0.0.1', port=514)
+      @receiver = receiver
+      @port = port
+    end
 
     #fire the message off
     def emit(event)
@@ -27,12 +31,9 @@ module CEF
       self.sock.send event.to_s, 0
     end
 
-
     def socksetup
       @sock=UDPSocket.new
-      receiver= self.receiver || "127.0.0.1"
-      port= self.receiverPort || 514
-      @sock.connect(receiver,port)
+      @sock.connect(@receiver, @port)
     end
   end
 end
