@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe CEF::Event do
   let(:formatted_time) { "Apr 25 1975 12:00:00" }
-  let(:time)  { Chronic.parse(formatted_time) }
+  let(:time)  { DateTime.strptime(formatted_time , '%b %d %Y %H:%M:%S')}
   
   context "formatting the syslog message" do
     let(:formatted) { "<131>Apr 25 1975 12:00:00 cefspec CEF:0|breed.org|CEF|#{CEF::VERSION}|0:event|unnamed event|1|" }

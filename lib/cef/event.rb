@@ -58,25 +58,25 @@ module CEF
       # make a guess as to how the time was set. parse strings and convert
       # them to epoch milliseconds, or leave it alone if it looks like a number
       # bigger than epoch milliseconds when i wrote this.
-      def time_convert(val)
-             
-        converted=case val
-          when String
-            if val.match(%r{\A[0-9]+\Z})
-              converted=val.to_i
-            else
-              res=Chronic.parse(val)
-              converted=Time.at(res).to_i * 1000
-            end
-          when Integer,Bignum
-            if val < 1232589621000 #Wed Jan 21 20:00:21 -0600 2009
-              val * 1000
-            else
-              val
-            end
-          end
-        
-      end
+      # def time_convert(val)
+      #
+      #   converted=case val
+      #     when String
+      #       if val.match(%r{\A[0-9]+\Z})
+      #         converted=val.to_i
+      #       else
+      #         res=Chronic.parse(val)
+      #         converted=Time.at(res).to_i * 1000
+      #       end
+      #     when Integer,Bignum
+      #       if val < 1232589621000 #Wed Jan 21 20:00:21 -0600 2009
+      #         val * 1000
+      #       else
+      #         val
+      #       end
+      #     end
+      #
+      # end
 
       # escape only pipes and backslashes in the prefix. you bet your sweet
       # ass there's a lot of backslashes in the substitution. you can thank
