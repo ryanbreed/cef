@@ -36,7 +36,7 @@ module CEF
     def to_s
       log_time=event_time.strftime(CEF::LOG_TIME_FORMAT)
       
-      cef_message=sprintf(
+      sprintf(
         CEF::LOG_FORMAT,
         syslog_pri.to_s,
         log_time,
@@ -107,34 +107,32 @@ module CEF
 
       # returns a pipe-delimeted list of prefix attributes
       def format_prefix
-        values  = CEF::PREFIX_ATTRIBUTES.keys.map {|k| self.send(k) }
+        values = CEF::PREFIX_ATTRIBUTES.keys.map { |k| self.send(k) }
         escaped = values.map do |value|
           escape_prefix_value(value)
         end
         escaped.join('|')
-
       end
 
       # returns a space-delimeted list of attribute=value pairs for all optionals
       def format_extension
-        
-        extensions=CEF::EXTENSION_ATTRIBUTES.keys.map do |meth|
-          value=self.send(meth)
+        extensions = CEF::EXTENSION_ATTRIBUTES.keys.map do |meth|
+          value = self.send(meth)
           next if value.nil?
-          shortname=CEF::EXTENSION_ATTRIBUTES[meth]
-          [shortname,value].join("=")
+          shortname = CEF::EXTENSION_ATTRIBUTES[meth]
+          [shortname, escape_extension_value(value)].join("=")
         end
 
         # make sure time comes out as milliseconds since epoch
-        times=CEF::TIME_ATTRIBUTES.keys.map do |meth|
-          value=self.send(meth)
+        times = CEF::TIME_ATTRIBUTES.keys.map do |meth|
+          value = self.send(meth)
           next if value.nil?
           shortname = CEF::TIME_ATTRIBUTES[meth]
-          [shortname,value].join("=")
+          [shortname, escape_extension_value(value)].join("=")
         end
         (extensions + times).compact.join(" ")
       end
-    end
+  end
 end
 
         # vendor=  self.deviceVendor       || "Breed"

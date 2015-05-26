@@ -1,5 +1,5 @@
-#event_spec.rb
 require 'spec_helper'
+
 describe CEF::Event do
   let(:formatted_time) { "Apr 25 1975 12:00:00" }
   let(:time)  { Chronic.parse(formatted_time) }
@@ -8,6 +8,7 @@ describe CEF::Event do
     let(:formatted) { "<131>Apr 25 1975 12:00:00 cefspec CEF:0|breed.org|CEF|#{CEF::VERSION}|0:event|unnamed event|1|" }
     let(:escaped)   { "<131>Apr 25 1975 12:00:00 cefspec CEF:0|bre\\|ed|CEF|#{CEF::VERSION}|0:event|unnamed event|1|" }
   end
+
   context "formatting the CEF prefix" do
     let(:formatted) {"breed.org|CEF|#{CEF::VERSION}|0:event|unnamed event|1"}
     let(:escaped)   {"bre\\|ed|CEF|#{CEF::VERSION}|0:event|unnamed event|1"}
@@ -27,6 +28,17 @@ describe CEF::Event do
         )    
         expect(event.format_prefix).to eq(escaped)
       end
+    end
+  end
+
+  context 'formatting the CEF extension' do
+    let(:escaped) { "suser=User\\=Name" }
+
+    it 'escapes equal signs' do
+      event = CEF::Event.new(
+          sourceUserName: 'User=Name'
+      )
+      expect(event.format_extension).to eq(escaped)
     end
   end
 end
