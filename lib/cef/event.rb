@@ -1,4 +1,4 @@
-module Cef
+module CEF
   class Event < Hashie::Dash
     include Hashie::Extensions::Coercion
     LOG_FORMAT      = '<%d>%s %s CEF:0|%s|%s'

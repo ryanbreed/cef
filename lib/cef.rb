@@ -8,6 +8,7 @@ require 'cef/version'
 require 'cef/time_extensions'
 require 'cef/event'
 require 'cef/loggers/cef_file'
+require 'cef/loggers/cef_syslog_udp'
 
 
 module CEF

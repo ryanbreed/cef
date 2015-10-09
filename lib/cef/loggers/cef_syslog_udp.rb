@@ -1,4 +1,4 @@
-module Cef
+module CEF
   module Loggers
     class SyslogUdp
       SYSLOG_TIME_FORMAT = '%b %d %Y %H:%M:%S'
@@ -37,3 +37,4 @@ module Cef
       end
     end
   end
+end

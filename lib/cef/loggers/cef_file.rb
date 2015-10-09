@@ -1,4 +1,4 @@
-module Cef
+module CEF
   module Loggers
     class CefFile
       attr_accessor :path, :defaults, :append

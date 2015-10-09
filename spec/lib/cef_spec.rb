@@ -1,9 +1,7 @@
 require 'spec_helper'
 
-describe "CEF Event Formatter" do
-  describe "Cef Extension" do
-    it "should output an extension"
-    it "should escape newlines"
-    it "should format time attributes"
+describe CEF do
+  it 'should have a version' do
+    expect(CEF::VERSION).not_to be_nil
   end
 end
