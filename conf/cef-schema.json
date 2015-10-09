@@ -1,0 +1,9 @@
+{
+  "prefix" : [
+    "name"
+  ],
+  "extension" : [
+    "deviceEventCategory",
+    "deviceInboundInterface"
+  ]
+}
