@@ -28,11 +28,12 @@ module Cef
       def formatted_message(event)
         format('%s %s', header, event.to_cef )
       end
-      
-      def emit(event)
-        defaults.each {|k,v| event.send(format("%s=",k),v) }
-        sock.send(formatted_message(event),0)
-      end
 
+      def emit(*events)
+        events.each do |event|
+          defaults.each {|k,v| event.send(format("%s=",k),v) }
+          sock.send(formatted_message(event),0)
+        end
+      end
     end
   end

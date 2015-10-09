@@ -42,7 +42,7 @@ module Cef
 
     def to_cef
       if extension_data == {}
-        format_prefix
+        format('%s|',format_prefix)
       else
         format('%s|%s',format_prefix,format_extension)
       end
