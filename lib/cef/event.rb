@@ -17,27 +17,34 @@ module CEF
     }
 
     SCHEMA_CONFIG_FILE = File.join(File.expand_path(File.dirname(__FILE__)),'..','..','conf','cef-schema.json')
-    config = JSON.parse(File.read(SCHEMA_CONFIG_FILE))
+    @@configured=false
 
-    if ENV['CEF_CONFIG']!=nil && File.exist?(ENV['CEF_CONFIG'])
-      overrides = JSON.parse(File.read(ENV['CEF_CONFIG']))
-      config.merge!(overrides)
-    end
-    CEF_SCHEMA = config
-
-    config['prefix'].each    do |json_key, default_val|
-      self.class_eval do
-        key = json_key.to_sym
-        property key, { default: default_val, required: true }
+    def self.configure(schema = SCHEMA_CONFIG_FILE)
+      config = JSON.parse(File.read(schema)).extend(Hashie::Extensions::DeepMerge)
+      if ENV['CEF_CONFIG']!=nil && File.exist?(ENV['CEF_CONFIG'])
+        overrides = JSON.parse(File.read(ENV['CEF_CONFIG']))
+        config.deep_merge!(overrides)
       end
+
+      config['prefix'].each    do |json_key, default_val|
+        self.class_eval do
+          key = json_key.to_sym
+          property key, { default: default_val, required: true }
+        end
+      end
+
+      config['extension'].each do |key|
+        self.class_eval { property key.to_sym }
+      end
+
+      config['types'].each do |key,klass_name|
+        self.class_eval { coerce_key key.to_sym, Module.const_get(klass_name) }
+      end
+      @@configured=config
     end
 
-    config['extension'].each do |key|
-      self.class_eval { property key.to_sym }
-    end
-
-    config['types'].each do |key,klass_name|
-      self.class_eval { coerce_key key.to_sym, Module.const_get(klass_name) }
+    def self.schema
+      @@configured||=self.configure
     end
 
     def to_cef
@@ -63,7 +70,7 @@ module CEF
     end
 
     def extension_keys
-      extension_data.keys.map {|k| CEF_SCHEMA["key_names"].fetch(k.to_s,k.to_s)}
+      extension_data.keys.map {|k| self.class.schema["key_names"].fetch(k.to_s,k.to_s)}
     end
 
     def extension_values

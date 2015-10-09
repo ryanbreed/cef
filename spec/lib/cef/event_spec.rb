@@ -4,9 +4,15 @@ describe CEF::Event do
   let(:formatted_time) { "Apr 25 1975 12:00:00" }
   let(:time)  { DateTime.strptime(formatted_time , '%b %d %Y %H:%M:%S')}
 
-  context "formatting the syslog message" do
-    let(:formatted) { "<131>Apr 25 1975 12:00:00 cefspec CEF:0|breed.org|CEF|#{CEF::VERSION}|0:event|unnamed event|1|" }
-    let(:escaped)   { "<131>Apr 25 1975 12:00:00 cefspec CEF:0|bre\\|ed|CEF|#{CEF::VERSION}|0:event|unnamed event|1|" }
+  context 'initializing instances' do
+    describe '.configure' do
+      it 'reads the schema configuration'
+      it 'reads schema overrides from the file referenced in the environment'
+    end
+    describe '.initialize' do
+      it 'sets defaults from the schema config'
+      it 'sets coercion types from the schema config'
+    end
   end
 
   context "formatting the CEF prefix" do
