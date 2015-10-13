@@ -24,7 +24,16 @@ module CEF
         fail ArgumentError, "#{config} is not a valid CEF configuration"
     end
         
-    type.new(configuration)
+    logger_type = case type
+      when Class
+        type
+      when String
+        Module.const_get(type)
+      else
+        fail ArgumentError, "#{type} is not a valid class"
+    end
+
+    logger_type.new(configuration)
   end
   def self.event(*args)
     CEF::Event.new(*args)
