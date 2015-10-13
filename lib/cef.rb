@@ -14,7 +14,7 @@ require 'cef/loggers/cef_syslog_udp'
 module CEF
   def self.logger(config: {}, type: CEF::Loggers::SyslogUdp)
     configuration = case config
-      when String && File.exist?(config)
+      when String
         JSON.parse(File.read(config))
       when Hash
         config
