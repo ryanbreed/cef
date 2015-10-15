@@ -4,11 +4,13 @@ describe CEF::Event do
   let(:formatted_time) { "Apr 25 1975 12:00:00" }
   let(:time)  { DateTime.strptime(formatted_time , '%b %d %Y %H:%M:%S')}
 
-  context 'initializing instances' do
-    describe '.configure' do
-      it 'reads the schema configuration'
-      it 'reads schema overrides from the file referenced in the environment'
+  context 'describing the class' do
+    describe '.properties' do
+      it 'reads the default schema config to define fields and accessors'
+      it 'reads the schema overrides'
     end
+  end
+  context 'initializing instances' do
     describe '.initialize' do
       it 'sets defaults from the schema config'
       it 'sets coercion types from the schema config'

@@ -12,6 +12,11 @@ require 'cef/loggers/cef_syslog_udp'
 
 
 module CEF
+  def self.configure(path=File.join(ENV['HOME'],'.cef.json'))
+    configuration=Hashie.symbolize_keys(JSON.parse(File.read(path)))
+    self.logger(configuration)
+  end
+
   def self.logger(config: {}, type: CEF::Loggers::SyslogUdp)
     configuration = case config
       when String

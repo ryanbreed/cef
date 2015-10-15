@@ -17,14 +17,8 @@ module CEF
     }
 
     SCHEMA_CONFIG_FILE = File.join(File.expand_path(File.dirname(__FILE__)),'..','..','conf','cef-schema.json')
-    @@configured=false
-
-    def self.configure(schema = SCHEMA_CONFIG_FILE)
-      config = JSON.parse(File.read(schema)).extend(Hashie::Extensions::DeepMerge)
-      if ENV['CEF_CONFIG']!=nil && File.exist?(ENV['CEF_CONFIG'])
-        overrides = JSON.parse(File.read(ENV['CEF_CONFIG']))
-        config.deep_merge!(overrides)
-      end
+      @@schema = config = JSON.parse(File.read(SCHEMA_CONFIG_FILE))
+                              .extend(Hashie::Extensions::DeepMerge)
 
       config['prefix'].each    do |json_key, default_val|
         self.class_eval do
@@ -40,11 +34,9 @@ module CEF
       config['types'].each do |key,klass_name|
         self.class_eval { coerce_key key.to_sym, Module.const_get(klass_name) }
       end
-      @@configured=config
-    end
 
     def self.schema
-      @@configured||=self.configure
+      @@schema
     end
 
     def to_cef
