@@ -1,1 +1,2 @@
---color --format documentation --backtrace --warnings -I lib -r ./lib/cef.rb
+--format documentation
+--color

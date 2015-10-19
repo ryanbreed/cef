@@ -1,3 +1,4 @@
+**/.DS_Store
 .env
 .idea
 *.gem
@@ -6,15 +7,10 @@
 .config
 .yardoc
 Gemfile.lock
-InstalledFiles
 _yardoc
 coverage
 doc/
-lib/bundler/man
 pkg
 rdoc
-spec/reports
-test/tmp
-test/version_tmp
-tmp
-cef.iml
+/vendor/bundle/
+/tmp/
